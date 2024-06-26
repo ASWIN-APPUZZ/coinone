@@ -5,27 +5,26 @@ import 'package:get/get.dart';
 
 import '../core/themes/constants.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<ForgotPassword> createState() => _ForgotPasswordState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _ForgotPasswordState extends State<ForgotPassword> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-  signUp() async {
+  reset() async {
     await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email.text, password: password.text);
-    Get.offAll(Wrapper());
+        .sendPasswordResetEmail(email: email.text);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(AppConstants().signup)),
+        appBar: AppBar(title: Text(AppConstants().forgot)),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(children: <Widget>[
@@ -35,20 +34,15 @@ class _SignUpPageState extends State<SignUpPage> {
                 decoration: InputDecoration(
                   hintText: AppConstants().email,
                 )),
-            TextField(
-                obscureText: true,
-                controller: password,
-                decoration: InputDecoration(
-                  hintText: AppConstants().pwd,
-                )),
+            
             const SizedBox(height: 20),
             ElevatedButton(
-                onPressed: signUp, child: Text(AppConstants().signup)),
+                onPressed: reset, child: Text(AppConstants().send)),
             TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/signin');
                 },
-                child: Text(AppConstants().already + AppConstants().signup)),
+                child: Text(AppConstants().back)),
           ]),
         ));
   }

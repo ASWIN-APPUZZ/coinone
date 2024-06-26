@@ -2,7 +2,7 @@ class AppConstants {
   String email = 'email';
   String pwd = 'password';
   String uname = 'User Name';
-  String cpwd = 'Confirm Password';
+  String forgot = 'Forgot Password';
   String subcate = 'Sub Categories';
   String notfound = 'Not Found';
   String home = 'Home Page';
@@ -12,4 +12,7 @@ class AppConstants {
   String remember = 'Remember me?';
   String noacc = 'Don\'t have an account? ';
   String back = 'Go Back';
+  String already = 'Already Registred';
+  String send = ' Send';
+  
 }
