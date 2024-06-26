@@ -15,5 +15,5 @@ class AppConstants {
   String already = 'Already Registred';
   String send = ' Send';
   String register = ' Register Now';
-  
+  String logout = 'LogOut';
 }
