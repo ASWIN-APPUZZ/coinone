@@ -1,7 +1,5 @@
-import 'package:coinone/presentation/wrapper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../core/themes/constants.dart';
 
@@ -32,6 +30,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 keyboardType: TextInputType.emailAddress,
                 controller: email,
                 decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
                   hintText: AppConstants().email,
                 )),
             

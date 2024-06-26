@@ -26,28 +26,40 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Sign In')),
+        // appBar: AppBar(title:),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(children: <Widget>[
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+            const Text('Welcome Back, See what you have missed!!'),
             TextField(
                 keyboardType: TextInputType.emailAddress,
                 controller: email,
                 decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
                   hintText: AppConstants().email,
+                  suffixIcon: const Icon(Icons.email)
                 )),
             TextField(
                 obscureText: true,
                 controller: password,
                 decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
                   hintText: AppConstants().pwd,
+                  suffixIcon: const Icon(Icons.lock)
                 )),
             const SizedBox(height: 5),
-            TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/forgot');
-                },
-                child: Text(AppConstants().forgot)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/forgot');
+                    },
+                    child: Text(AppConstants().forgot)),
+              ],
+            ),
                const SizedBox(height: 20), 
             ElevatedButton(
                 onPressed: signIn, child: Text(AppConstants().signin)),
@@ -55,8 +67,7 @@ class _SignInPageState extends State<SignInPage> {
                 onPressed: () {
                   Navigator.pushNamed(context, '/signup');
                 },
-                child: Text(AppConstants().noacc + AppConstants().signup)),
-                
+                child: Text(AppConstants().noacc + AppConstants().register)),
           ]),
         ));
   }

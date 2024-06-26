@@ -10,9 +10,10 @@ class AppConstants {
   String signin = 'Sign In';
   String signup = 'Sign Up';
   String remember = 'Remember me?';
-  String noacc = 'Don\'t have an account? ';
+  String noacc = 'Not a member yet? ';
   String back = 'Go Back';
   String already = 'Already Registred';
   String send = ' Send';
+  String register = ' Register Now';
   
 }
