@@ -1,44 +1,66 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import '../../../core/constants.dart';
-// import '../controllers/login.controller.dart';
-// import '../widgets/carousel_slider_widget.dart';
-// import '../widgets/login_form_widget.dart';
-// import '../widgets/logo_image_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-// final formkey = GlobalKey<FormState>();
-// class LoginScreen extends GetView<LoginController> {
-//  const LoginScreen({super.key});
-//   // final ApiService apiService = Get.find<ApiService>();
-//    @override
-//   Widget build(BuildContext context) {
-//   //   // Async function to get token before returning the Scaffold
-//   //   Future<void> initializeToken() async {
-//   //     await apiService.getToken();
-//   //   }
+class signInPage extends StatefulWidget {
+  @override
+  _signInPageState createState() => _signInPageState();
+}
 
-//     // Call the initializeToken function before returning the Scaffold
-//     //initializeToken();
-//     return Scaffold(
-//       body: SafeArea(
-//         child: Padding(
-//           padding: const EdgeInsets.only(left: 20, right: 20),
-//           child: SingleChildScrollView(
-//             child: SizedBox(
-//               height: MediaQuery.of(context).size.height+30,
-//               child: Column(
-//                 children: [
-//                   const LogoImageWidget(),
-//                   const CarouselSliderWidget(
-//                       imageAssetPaths: CarouselImages.loginImages),
-//                   LoginFormWidget(controller: controller, formkey: formkey),
-//                   // const SizedBox(height: 10)
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+class _signInPageState extends State<signInPage> {
+  final _auth = FirebaseAuth.instance;
+  String email = '';
+  String password = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Sign In'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: <Widget>[
+            TextField(
+              keyboardType: TextInputType.emailAddress,
+              onChanged: (value) {
+                email = value;
+              },
+              decoration: InputDecoration(
+                hintText: 'Enter your email',
+              ),
+            ),
+            TextField(
+              obscureText: true,
+              onChanged: (value) {
+                password = value;
+              },
+              decoration: InputDecoration(
+                hintText: 'Enter your password',
+              ),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                try {
+                  await _auth.signInWithEmailAndPassword(
+                      email: email, password: password);
+                  // Navigate to home page
+                } catch (e) {
+                  print(e);
+                }
+              },
+              child: Text('Sign In'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/signup');
+              },
+              child: Text('Don\'t have an account? Sign Up'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
