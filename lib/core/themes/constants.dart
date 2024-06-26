@@ -7,4 +7,9 @@ class AppConstants {
   String notfound = 'Not Found';
   String home = 'Home Page';
   String nocate = 'No categories found';
+  String signin = 'Sign In';
+  String signup = 'Sign Up';
+  String remember = 'Remember me?';
+  String noacc = 'Don\'t have an account? ';
+  String back = 'Go Back';
 }

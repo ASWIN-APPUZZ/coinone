@@ -1,3 +1,4 @@
+import 'package:coinone/core/themes/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -38,19 +39,17 @@ class _SignupPageState extends State<SignupPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.fromLTRB(15, 110, 0, 0),
-                  child: const Text("SignUp",
-                      style: TextStyle(
-                          fontSize: 40, fontWeight: FontWeight.bold
-                      )
-                  ),
-                )
-              ],
-            ),
+          Stack(
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.fromLTRB(15, 110, 0, 0),
+                child: const Text("SignUp",
+                    style: TextStyle(
+                        fontSize: 40, fontWeight: FontWeight.bold
+                    )
+                ),
+              )
+            ],
           ),
           Container(
             padding: const EdgeInsets.only(top: 35, left: 20, right: 30),
@@ -58,14 +57,14 @@ class _SignupPageState extends State<SignupPage> {
               children: <Widget>[
                 TextField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
-                      labelText: 'EMAIL',
-                      labelStyle: TextStyle(
+                  decoration: InputDecoration(
+                      labelText: AppConstants().email,
+                      labelStyle: const TextStyle(
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.bold,
                           color: Colors.grey
                       ),
-                      focusedBorder: UnderlineInputBorder(
+                      focusedBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.green),
                       )
                   ),
@@ -73,14 +72,14 @@ class _SignupPageState extends State<SignupPage> {
                 const SizedBox(height: 20,),
                 TextField(
                   controller: _passwordController,
-                  decoration: const InputDecoration(
-                      labelText: 'PASSWORD',
-                      labelStyle: TextStyle(
+                  decoration: InputDecoration(
+                      labelText: AppConstants().pwd,
+                      labelStyle: const TextStyle(
                           fontFamily: 'Montserrat',
                           fontWeight: FontWeight.bold,
                           color: Colors.grey
                       ),
-                      focusedBorder: UnderlineInputBorder(
+                      focusedBorder: const UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.green),
                       )
                   ),
@@ -99,10 +98,10 @@ class _SignupPageState extends State<SignupPage> {
                         onTap: () async{
                           _register();
                         },
-                        child: const Center(
+                        child: Center(
                             child: Text(
-                                'SIGNUP',
-                                style: TextStyle(
+                                AppConstants().signup,
+                                style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                     fontFamily: 'Montserrat'
@@ -112,7 +111,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 15,),
+                const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -120,9 +119,9 @@ class _SignupPageState extends State<SignupPage> {
                       onTap: () {
                         Navigator.of(context).pop();
                       },
-                      child: const Text(
-                          'Go Back',
-                          style: TextStyle(
+                      child: Text(
+                          AppConstants().back,
+                          style: const TextStyle(
                               color: Colors.blueGrey,
                               fontFamily: 'Montserrat',
                               fontWeight: FontWeight.bold,
