@@ -4,29 +4,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../api/base_url.dart';
+import '../api/firebase_options.dart';
 import '../core/themes/constants.dart';
 import '../routes/route.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
+  final AuthService _authService = AuthService();
+  HomeController controller = Get.put(HomeController());
   HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  final user = FirebaseAuth.instance.currentUser;
-
-  signout() async {
-    await FirebaseAuth.instance.signOut();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    HomeController controller = Get.put(HomeController());
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(AppConstants().home),
+        actions: [IconButton(onPressed: (() => _authService.signOut), icon:  Icon(Icons.exit_to_app))],
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -59,17 +52,6 @@ class _HomePageState extends State<HomePage> {
           );
         }
       }),
-      // body: Column(
-      //   children: [
-      //     // Image.network('$baseURL/${category.imgUrlPath}'),
-      //     Text('${user!.email}')
-      //   ],
-      // ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: (() => signout),
-        label: Text(AppConstants().logout),
-        icon: Icon(Icons.exit_to_app),
-      ),
     );
   }
 }

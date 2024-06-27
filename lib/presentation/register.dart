@@ -1,26 +1,15 @@
-import 'package:coinone/presentation/wrapper.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:coinone/presentation/widget/elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../core/themes/constants.dart';
+import '../domain/controller/register_controller.dart';
+import 'widget/text_field_widget.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class SignUpPage extends StatelessWidget {
+  final SignUpController _signUpController = Get.put(SignUpController());
+  SignUpPage({super.key});
 
-  @override
-  State<SignUpPage> createState() => _SignUpPageState();
-}
-
-class _SignUpPageState extends State<SignUpPage> {
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-
-  signUp() async {
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email.text, password: password.text);
-    Get.offAll(const Wrapper());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,29 +20,33 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Center(
             child: Column(children: <Widget>[
               const Text('Welcome! Register here to join with us..'),
-              TextField(
-                  keyboardType: TextInputType.emailAddress,
-                  controller: email,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    hintText: AppConstants().email,
-                    suffixIcon: const Icon(Icons.email)
-                  )),
-              TextField(
-                  obscureText: true,
-                  controller: password,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    hintText: AppConstants().pwd,
-                    suffixIcon: const Icon(Icons.lock)
-                  )),
+              TextFieldWidget(controller: _signUpController.emailController, labelText: AppConstants().email, icon: Icons.email),
               const SizedBox(height: 20),
-              ElevatedButton(
-                  onPressed: signUp, child: Text(AppConstants().signup)),
+               Obx(() => TextFieldWidget(
+                controller: _signUpController.passwordController,
+                labelText: 'Password',
+                icon: Icons.lock,
+                obscureText: _signUpController.isPasswordObscured.value,
+                trailingIcon: _signUpController.isPasswordObscured.value
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+                toggleObscureText: _signUpController.togglePasswordVisibility,
+              )),
+              const SizedBox(height: 20),
+             Obx(() => TextFieldWidget(
+                controller: _signUpController.confirmPasswordController,
+                labelText: 'Confirm Password',
+                icon: Icons.lock,
+                obscureText: _signUpController.isConfirmPasswordObscured.value,
+                trailingIcon: _signUpController.isConfirmPasswordObscured.value
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+                toggleObscureText: _signUpController.toggleConfirmPasswordVisibility,
+              )),
+              const SizedBox(height: 20),
+              ElevatedButtonWidget(text: AppConstants().signup, onPressed: ()=>_signUpController.signUp(context)),
               TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/signin');
-                  },
+                  onPressed: () => SignUpPage(),
                   child: Text(AppConstants().already + AppConstants().signup)),
             ]),
           ),

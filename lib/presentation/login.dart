@@ -1,6 +1,11 @@
 import 'package:coinone/core/themes/constants.dart';
+import 'package:coinone/presentation/register.dart';
+import 'package:coinone/presentation/widget/text_field_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+
+import '../domain/controller/login_controller.dart';
+import 'widget/elevated_button.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -10,18 +15,9 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
+  final SignInController _signInController = Get.put(SignInController());
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-
-  signIn() async {
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email.text, password: password.text);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,46 +25,33 @@ class _SignInPageState extends State<SignInPage> {
         // appBar: AppBar(title:),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-            const Text('Welcome Back, See what you have missed!!'),
-            TextField(
-                keyboardType: TextInputType.emailAddress,
-                controller: email,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: AppConstants().email,
-                  suffixIcon: const Icon(Icons.email)
-                )),
-            TextField(
-                obscureText: true,
-                controller: password,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintText: AppConstants().pwd,
-                  suffixIcon: const Icon(Icons.lock)
-                )),
-            const SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/forgot');
-                    },
-                    child: Text(AppConstants().forgot)),
-              ],
-            ),
-               const SizedBox(height: 20), 
-            ElevatedButton(
-                onPressed: signIn, child: Text(AppConstants().signin)),
-            TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/signup');
-                },
-                child: Text(AppConstants().noacc + AppConstants().register)),
-          ]),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+              const Text('Welcome Back, See what you have missed!!'),
+              TextFieldWidget(controller: _signInController.emailController, labelText: AppConstants().email, icon: Icons.email),
+              Obx(() => TextFieldWidget(
+                obscureText: _signInController.isPasswordObscured.value,
+                trailingIcon: _signInController.isPasswordObscured.value
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+                toggleObscureText: _signInController.togglePasswordVisibility,
+                controller: _signInController.passwordController,
+                labelText: 'Password',
+                icon: Icons.lock,
+              )),
+              const SizedBox(height: 5),
+                 const SizedBox(height: 20), 
+             ElevatedButtonWidget(
+                text: AppConstants().signin,
+                onPressed: () => _signInController.signIn(),
+              ),
+              TextButton(
+                  onPressed: ()=> SignUpPage(),
+                  child: Text(AppConstants().noacc + AppConstants().register)),
+            ]),
+          ),
         ));
   }
 }
